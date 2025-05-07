@@ -3,9 +3,9 @@
     <h1>Daily Mood Tracker</h1>
 
     <!-- Mood Entry Form -->
-    <div class="mood-form">
+    <div>
       <h2>How are you feeling today?</h2>
-      <div class="form-group">
+      <div>
         <label for="mood">Select your mood:</label>
         <select id="mood" v-model="newMood.mood">
           <option value="">Choose a mood</option>
@@ -17,12 +17,12 @@
         </select>
       </div>
 
-      <div class="form-group">
+      <div>
         <label for="note">Add a note (optional):</label>
         <textarea id="note" v-model="newMood.note" placeholder="How was your day?"></textarea>
       </div>
 
-      <button @click="saveMood" :disabled="!newMood.mood" class="save-button">Save Mood</button>
+      <button @click="saveMood" :disabled="!newMood.mood">Save Mood</button>
     </div>
 
     <!-- Mood History -->
