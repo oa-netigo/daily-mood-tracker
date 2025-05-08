@@ -30,7 +30,20 @@ export default {
   methods: {
     saveMood(moodData) {
       this.moodEntries.unshift(moodData)
+      this.saveToLocalStorage()
+    },
+    saveToLocalStorage() {
+      localStorage.setItem('moodEntries', JSON.stringify(this.moodEntries))
+    },
+    loadFromLocalStorage() {
+      const savedEntries = localStorage.getItem('moodEntries')
+      if (savedEntries) {
+        this.moodEntries = JSON.parse(savedEntries)
+      }
     }
+  },
+  created() {
+    this.loadFromLocalStorage()
   }
 }
 </script>
