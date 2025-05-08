@@ -37,7 +37,7 @@
             </div>
       </div>
     </div>
-    <p class="mood-note text-gray-500 dark:text-gray-400" v-if="entry.note">
+    <p class="mood-note text-gray-500 dark:text-gray-400 break-words" v-if="entry.note">
       {{ entry.note }}
     </p>
   </div>
