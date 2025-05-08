@@ -4,7 +4,7 @@
     <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
       <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
         <MoodForm @save-mood="saveMood" />
-        <MoodHistory :entries="moodEntries" />
+        <MoodHistory :entries="moodEntries" @delete-entry="deleteEntry" />
       </div>
     </div>
   </section>
@@ -30,6 +30,10 @@ export default {
   methods: {
     saveMood(moodData) {
       this.moodEntries.unshift(moodData)
+      this.saveToLocalStorage()
+    },
+    deleteEntry(index) {
+      this.moodEntries.splice(index, 1)
       this.saveToLocalStorage()
     },
     saveToLocalStorage() {

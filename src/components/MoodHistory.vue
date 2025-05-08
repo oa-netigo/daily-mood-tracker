@@ -8,6 +8,9 @@
         v-for="(entry, index) in entries"
         :key="index"
         :entry="entry"
+        :index="index"
+        @delete-entry="deleteEntry"
+        ref="moodEntries"
       />
     </div>
     <div v-else class="no-entries">
@@ -28,6 +31,28 @@ export default {
     entries: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    deleteEntry(index) {
+      this.$emit('delete-entry', index)
+    },
+    reinitializeDropdowns() {
+      this.$nextTick(() => {
+        if (this.$refs.moodEntries) {
+          this.$refs.moodEntries.forEach(entry => {
+            entry.initDropdown()
+          })
+        }
+      })
+    }
+  },
+  watch: {
+    entries: {
+      handler() {
+        this.reinitializeDropdowns()
+      },
+      deep: true
     }
   }
 }
