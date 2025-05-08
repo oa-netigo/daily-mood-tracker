@@ -56,38 +56,50 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+import { useMoodStore } from '../composables/useMoodStore'
+
 export default {
   name: 'MoodForm',
-  data() {
-    return {
-      mood: '',
-      note: '',
-      errors: {},
-      noteMaxLength: 200
+  setup(_, { emit }) {
+    const { addMoodEntry } = useMoodStore()
+    const mood = ref('')
+    const note = ref('')
+    const errors = ref({})
+    const noteMaxLength = 200
+
+    const validate = () => {
+      errors.value = {}
+      if (!mood.value) {
+        errors.value.mood = 'Mood is required.'
+      }
+      if (note.value.length > noteMaxLength) {
+        errors.value.note = `Note must be less than ${noteMaxLength} characters.`
+      }
+      return Object.keys(errors.value).length === 0
     }
-  },
-  methods: {
-    validate() {
-      this.errors = {}
-      if (!this.mood) {
-        this.errors.mood = 'Mood is required.'
-      }
-      if (this.note.length > this.noteMaxLength) {
-        this.errors.note = `Note must be less than ${this.noteMaxLength} characters.`
-      }
-      return Object.keys(this.errors).length === 0
-    },
-    onSubmit() {
-      if (this.validate()) {
-        this.$emit('save-mood', {
-          mood: this.mood,
-          note: this.note,
+
+    const onSubmit = () => {
+      if (validate()) {
+        const entry = {
+          mood: mood.value,
+          note: note.value,
           date: new Date()
-        })
-        this.mood = ''
-        this.note = ''
-        this.errors = {}
+        }
+        addMoodEntry(entry)
+        emit('save-mood', entry)
+        mood.value = ''
+        note.value = ''
+        errors.value = {}
       }
+    }
+
+    return {
+      mood,
+      note,
+      errors,
+      noteMaxLength,
+      onSubmit
     }
   }
 }

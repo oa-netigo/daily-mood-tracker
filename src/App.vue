@@ -4,13 +4,15 @@
     <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
       <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
         <MoodForm @save-mood="saveMood" />
-        <MoodHistory :entries="moodEntries" @delete-entry="deleteEntry" />
+        <MoodHistory :entries="moodEntries" @delete-entry="handleDeleteEntry" @edit-entry="handleEditEntry" />
       </div>
     </div>
   </section>
 </template>
 
 <script>
+import { onMounted } from 'vue'
+import { useMoodStore } from './composables/useMoodStore'
 import AppHeader from './components/AppHeader.vue'
 import MoodForm from './components/MoodForm.vue'
 import MoodHistory from './components/MoodHistory.vue'
@@ -22,32 +24,45 @@ export default {
     MoodForm,
     MoodHistory
   },
-  data() {
-    return {
-      moodEntries: []
+  setup() {
+    const { moodEntries, addMoodEntry, deleteMoodEntry, editMoodEntry } = useMoodStore()
+
+    const saveMood = (moodData) => {
+      addMoodEntry(moodData)
+      saveToLocalStorage()
     }
-  },
-  methods: {
-    saveMood(moodData) {
-      this.moodEntries.unshift(moodData)
-      this.saveToLocalStorage()
-    },
-    deleteEntry(index) {
-      this.moodEntries.splice(index, 1)
-      this.saveToLocalStorage()
-    },
-    saveToLocalStorage() {
-      localStorage.setItem('moodEntries', JSON.stringify(this.moodEntries))
-    },
-    loadFromLocalStorage() {
+
+    const handleDeleteEntry = (index) => {
+      deleteMoodEntry(index)
+      saveToLocalStorage()
+    }
+
+    const handleEditEntry = ({ index, mood, note }) => {
+      editMoodEntry(index, { mood, note })
+      saveToLocalStorage()
+    }
+
+    const saveToLocalStorage = () => {
+      localStorage.setItem('moodEntries', JSON.stringify(moodEntries.value))
+    }
+
+    const loadFromLocalStorage = () => {
       const savedEntries = localStorage.getItem('moodEntries')
       if (savedEntries) {
-        this.moodEntries = JSON.parse(savedEntries)
+        moodEntries.value = JSON.parse(savedEntries)
       }
     }
-  },
-  created() {
-    this.loadFromLocalStorage()
+
+    onMounted(() => {
+      loadFromLocalStorage()
+    })
+
+    return {
+      moodEntries,
+      saveMood,
+      handleDeleteEntry,
+      handleEditEntry
+    }
   }
 }
 </script>

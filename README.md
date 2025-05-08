@@ -1,26 +1,23 @@
 # Daily Mood Tracker
 
-A simple Vue 3 application that helps users track their daily moods. This project demonstrates core Vue.js concepts using the Options API.
+A modern Vue 3 application that helps users track their daily moods. Built with Vue 3, Vite, and TailwindCSS for a beautiful and responsive user interface.
 
 ## Features
 
 - Select your mood from a predefined list (happy, sad, neutral, excited, tired)
 - Add optional notes about your day
 - View your mood history in chronological order
-- Clean and intuitive user interface
-- Responsive design
+- Clean and intuitive user interface built with TailwindCSS
+- Responsive design that works on all devices
+- Modern development setup with Vite
 
-## Vue.js Concepts Demonstrated
+## Tech Stack
 
-- **Data Management**: Using `data()` to manage application state
-- **Directives**:
-  - `v-model`: Two-way data binding for form inputs
-  - `v-if`: Conditional rendering
-  - `v-for`: List rendering
-  - `:disabled`: Dynamic attribute binding
-- **Methods**: Custom functions for handling user interactions
-- **Event Handling**: Using `@click` for button interactions
-- **Computed Properties**: (Can be added for more complex data transformations)
+- **Vue 3**: Progressive JavaScript framework
+- **Vite**: Next generation frontend tooling
+- **TailwindCSS**: Utility-first CSS framework
+- **Flowbite**: TailwindCSS component library
+- **ESLint & Prettier**: Code quality and formatting
 
 ## Project Structure
 
@@ -29,7 +26,12 @@ src/
   ├── App.vue          # Main application component
   ├── main.js          # Application entry point
   ├── assets/          # Static assets
-  └── components/      # Reusable components
+  ├── components/      # Reusable components
+  │   ├── AppHeader.vue    # Application header
+  │   ├── MoodEntry.vue    # Individual mood entry component
+  │   ├── MoodForm.vue     # Form for adding new moods
+  │   └── MoodHistory.vue  # Display mood history
+  └── composables/     # Reusable composition functions
 ```
 
 ## Getting Started
@@ -64,24 +66,44 @@ Create a production build:
 npm run build
 ```
 
-## Learning Resources
+### Code Quality
 
-This project is designed to help beginners understand Vue.js concepts. Here are some key concepts demonstrated:
+Format your code:
 
-1. **Data Binding**: See how `v-model` connects form inputs to data
-2. **Conditional Rendering**: Learn how `v-if` and `v-else` work
-3. **List Rendering**: Understand how `v-for` creates dynamic lists
-4. **Event Handling**: See how methods respond to user interactions
-5. **Component Structure**: Learn about Vue's single-file component structure
+```sh
+npm run format
+```
+
+Lint your code:
+
+```sh
+npm run lint
+```
+
+## Vue.js Concepts Demonstrated
+
+- **Component Architecture**: Modular components for better organization
+- **Data Management**: Using `data()` and composition API
+- **Directives**:
+  - `v-model`: Two-way data binding
+  - `v-if`: Conditional rendering
+  - `v-for`: List rendering
+  - `:disabled`: Dynamic attribute binding
+- **Methods**: Custom functions for handling user interactions
+- **Event Handling**: Using `@click` for button interactions
+- **Computed Properties**: For derived state
+- **Composition API**: Using composables for reusable logic
 
 ## Contributing
 
 Feel free to fork this project and add your own features! Some ideas:
 
 - Add more mood options
-- Implement data persistence
+- Implement data persistence with localStorage or a backend
 - Add mood statistics and charts
 - Create a dark mode theme
+- Add user authentication
+- Implement data export functionality
 
 ## License
 
@@ -93,10 +115,4 @@ This project is open source and available under the MIT License.
 
 ## Customize configuration
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+See [Vite Configuration Reference](https://vitejs.dev/config/).

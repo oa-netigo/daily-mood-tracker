@@ -9,7 +9,8 @@
         :key="index"
         :entry="entry"
         :index="index"
-        @delete-entry="deleteEntry"
+        @delete-entry="handleDeleteEntry"
+        @edit-entry="handleEditEntry"
         ref="moodEntries"
       />
     </div>
@@ -20,6 +21,7 @@
 </template>
 
 <script>
+import { useMoodStore } from '../composables/useMoodStore'
 import MoodEntry from './MoodEntry.vue'
 
 export default {
@@ -33,26 +35,25 @@ export default {
       required: true
     }
   },
-  methods: {
-    deleteEntry(index) {
-      this.$emit('delete-entry', index)
-    },
-    reinitializeDropdowns() {
-      this.$nextTick(() => {
-        if (this.$refs.moodEntries) {
-          this.$refs.moodEntries.forEach(entry => {
-            entry.initDropdown()
-          })
-        }
-      })
+  setup(_, { emit }) {
+    const { deleteMoodEntry, editMoodEntry } = useMoodStore()
+
+    const handleDeleteEntry = (index) => {
+      deleteMoodEntry(index)
+      emit('delete-entry', index)
     }
-  },
-  watch: {
-    entries: {
-      handler() {
-        this.reinitializeDropdowns()
-      },
-      deep: true
+
+    const handleEditEntry = (payload) => {
+      editMoodEntry(payload.index, {
+        mood: payload.mood,
+        note: payload.note
+      })
+      emit('edit-entry', payload)
+    }
+
+    return {
+      handleDeleteEntry,
+      handleEditEntry
     }
   }
 }
